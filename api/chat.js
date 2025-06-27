@@ -17,29 +17,8 @@ export default async function handler(req, res) {
       return;
     }
 
-    const response = await fetch("https://api.openai.com/v1/chat/completions", {
-      method: "POST",
-      headers: {
-        "Authorization": `Bearer ${process.env.OPENAI_API_KEY}`,
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        model: "gpt-4o",
-        messages: [{ role: "user", content: message }]
-      })
-    });
-
-    const data = await response.json();
-
-    // ✅ طباعة الرد الكامل في الLog
-    console.log("OpenAI Response:", JSON.stringify(data));
-
-    if (!data.choices || !data.choices[0]) {
-      res.status(500).json({ error: "Invalid response from OpenAI", details: data });
-      return;
-    }
-
-    res.status(200).json({ reply: data.choices[0].message.content });
+    // ✅ رد تجريبي ثابت
+    res.status(200).json({ reply: "مرحبًا محمد! هذا رد تجريبي مؤقت." });
 
   } catch (error) {
     console.error("API error:", error);
