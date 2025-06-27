@@ -1,4 +1,14 @@
 export default async function handler(req, res) {
+  // السماح للـCORS
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader("Access-Control-Allow-Methods", "POST, OPTIONS");
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type");
+
+  if (req.method === "OPTIONS") {
+    res.status(200).end();
+    return;
+  }
+
   const { message } = req.body;
 
   const response = await fetch("https://api.openai.com/v1/chat/completions", {
@@ -9,26 +19,11 @@ export default async function handler(req, res) {
     },
     body: JSON.stringify({
       model: "gpt-4o",
-      messages: [{ role: "user", content: message }],
-      stream: true
+      messages: [{ role: "user", content: message }]
     })
   });
 
-  res.writeHead(200, {
-    "Content-Type": "text/event-stream",
-    "Cache-Control": "no-cache",
-    "Connection": "keep-alive"
-  });
+  const data = await response.json();
 
-  const reader = response.body.getReader();
-  const encoder = new TextEncoder();
-  const decoder = new TextDecoder();
-
-  while (true) {
-    const { done, value } = await reader.read();
-    if (done) break;
-    res.write(encoder.encode(decoder.decode(value)));
-  }
-
-  res.end();
+  res.status(200).json({ reply: data.choices[0].message.content });
 }
