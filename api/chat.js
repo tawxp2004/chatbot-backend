@@ -31,7 +31,6 @@ export default async function handler(req, res) {
 
     const data = await response.json();
 
-    // ✅ طباعة الرد الكامل في الLog
     console.log("OpenAI Response:", JSON.stringify(data));
 
     if (!data.choices || !data.choices[0]) {
