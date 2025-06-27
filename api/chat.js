@@ -13,15 +13,15 @@ export default async function handler(req, res) {
     const { message } = req.body;
 
     if (!message) {
-      res.status(400).json({ error: "No message provided" });
+      res.status(400).send("No message provided");
       return;
     }
 
-    // ✅ رد تجريبي ثابت
-    res.status(200).json({ reply: "مرحبًا محمد! هذا رد تجريبي مؤقت." });
+    // ✅ نص عادي بدون JSON
+    res.status(200).send("مرحبًا محمد! هذا رد تجريبي مؤقت");
 
   } catch (error) {
     console.error("API error:", error);
-    res.status(500).json({ error: "Internal Server Error" });
+    res.status(500).send("Internal Server Error");
   }
 }
