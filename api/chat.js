@@ -9,11 +9,26 @@ export default async function handler(req, res) {
     },
     body: JSON.stringify({
       model: "gpt-4o",
-      messages: [{ role: "user", content: message }]
+      messages: [{ role: "user", content: message }],
+      stream: true
     })
   });
 
-  const data = await response.json();
+  res.writeHead(200, {
+    "Content-Type": "text/event-stream",
+    "Cache-Control": "no-cache",
+    "Connection": "keep-alive"
+  });
 
-  res.status(200).json({ reply: data.choices[0].message.content });
+  const reader = response.body.getReader();
+  const encoder = new TextEncoder();
+  const decoder = new TextDecoder();
+
+  while (true) {
+    const { done, value } = await reader.read();
+    if (done) break;
+    res.write(encoder.encode(decoder.decode(value)));
+  }
+
+  res.end();
 }
