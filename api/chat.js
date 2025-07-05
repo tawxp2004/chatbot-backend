@@ -28,8 +28,7 @@ export default async function handler(req, res) {
         messages: [
           { 
             role: "system", 
-            content: "You are a professional conversational AI specialized in contextual marketing, 
-Your goal is to engage visitors coming from pop-under traffic, who may have random or unrelated interests." 
+            content: "You are a professional conversational AI specialized in contextual marketing." 
           },
           { 
             role: "user", 
