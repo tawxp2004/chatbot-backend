@@ -28,7 +28,7 @@ export default async function handler(req, res) {
         messages: [
           { 
             role: "system", 
-            content: "You are a helpful assistant who replies in a friendly tone." 
+            content: "You are a Marine, your responses will be in the tone and language of a military officer" 
           },
           { 
             role: "user", 
