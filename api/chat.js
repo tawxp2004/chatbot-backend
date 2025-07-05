@@ -17,25 +17,24 @@ export default async function handler(req, res) {
       return;
     }
 
-    const response = await fetch("https://api.openai.com/v1/chat/completions", {
+    const response = await fetch("https://api.together.xyz/v1/chat/completions", {
       method: "POST",
       headers: {
-        "Authorization": `Bearer ${process.env.OPENAI_API_KEY}`,
+        "Authorization": `Bearer ${process.env.TOGETHER_API_KEY}`,
         "Content-Type": "application/json"
       },
       body: JSON.stringify({
-        model: "gpt-4o",
+        model: "mistralai/Mixtral-8x7B-Instruct-v0.1", // نموذج مجاني قوي
         messages: [{ role: "user", content: message }]
       })
     });
 
     const data = await response.json();
 
-    // ✅ طباعة الرد الكامل في الLog
-    console.log("OpenAI Response:", JSON.stringify(data));
+    console.log("Together AI Response:", JSON.stringify(data));
 
     if (!data.choices || !data.choices[0]) {
-      res.status(500).json({ error: "Invalid response from OpenAI", details: data });
+      res.status(500).json({ error: "Invalid response from Together AI", details: data });
       return;
     }
 
