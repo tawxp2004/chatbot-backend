@@ -25,7 +25,16 @@ export default async function handler(req, res) {
       },
       body: JSON.stringify({
         model: "mistralai/Mixtral-8x7B-Instruct-v0.1", // نموذج مجاني قوي
-        messages: [{ role: "user", content: message }]
+        messages: [
+          { 
+            role: "system", 
+            content: "You are a helpful assistant who replies in a friendly tone." 
+          },
+          { 
+            role: "user", 
+            content: message 
+          }
+        ]
       })
     });
 
